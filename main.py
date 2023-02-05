@@ -2,8 +2,7 @@ import databases
 import sqlalchemy
 from fastapi import FastAPI, Request
 
-password = 'est14641'
-DATABASE_URL = f"postgresql://postgres:{password}@localhost:5433/test2"
+DATABASE_URL = "postgresql://omid2:omid1234@localhost:5432/test2"
 
 database = databases.Database(DATABASE_URL)
 metadata = sqlalchemy.MetaData()
@@ -17,9 +16,9 @@ books = sqlalchemy.Table(
     sqlalchemy.Column("author", sqlalchemy.String),
 )
 
-engine = sqlalchemy.create_engine(DATABASE_URL)
+# engine = sqlalchemy.create_engine(DATABASE_URL)
 # it create table with
-metadata.create_all(engine)
+# metadata.create_all(engine)
 
 app = FastAPI()
 
@@ -38,8 +37,8 @@ async def get_all_books():
     return await database.fetch_all(query)
 
 @app.post('/books/')
-async def create_book(request: Request):
-    data = await request.json()
+async def create_book(json : dict):
+    data = json
     query = books.insert().values(**data) # it's equal to title = data['title], author = data['author']
     last_record_id = await database.execute(query)
     return {"id" : last_record_id}

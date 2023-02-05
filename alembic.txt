@@ -1,0 +1,12 @@
+alembic init migrations
+
+copy database_url and past to sqlalchemy_url
+
+use your metadata and set into env
+
+alembic revision --autogenerate  -m "initial"
+// 
+alembic upgrade head
+
+
+
